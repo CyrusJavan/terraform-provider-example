@@ -2,6 +2,7 @@ package pet
 
 import (
 	"encoding/json"
+	"math/rand"
 	"net/http"
 	"strconv"
 
@@ -17,6 +18,9 @@ type PetServer struct {
 
 func (s *PetServer) AddPet(p *models.Pet) middleware.Responder {
 	return middleware.ResponderFunc(func(w http.ResponseWriter, pr runtime.Producer) {
+		if p.ID == 0 {
+			p.ID = rand.Int63()
+		}
 		m, err := json.Marshal(p)
 		if err != nil {
 			w.WriteHeader(http.StatusBadGateway)
@@ -27,6 +31,7 @@ func (s *PetServer) AddPet(p *models.Pet) middleware.Responder {
 			w.WriteHeader(http.StatusBadGateway)
 			return
 		}
+		_, _ = w.Write([]byte(strconv.FormatInt(p.ID, 10)))
 		w.WriteHeader(http.StatusOK)
 	})
 }
