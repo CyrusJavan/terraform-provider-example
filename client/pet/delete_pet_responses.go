@@ -20,6 +20,12 @@ type DeletePetReader struct {
 // ReadResponse reads a server response into the received o.
 func (o *DeletePetReader) ReadResponse(response runtime.ClientResponse, consumer runtime.Consumer) (interface{}, error) {
 	switch response.Code() {
+	case 200:
+		result := NewDeletePetOK()
+		if err := result.readResponse(response, consumer, o.formats); err != nil {
+			return nil, err
+		}
+		return result, nil
 	case 400:
 		result := NewDeletePetBadRequest()
 		if err := result.readResponse(response, consumer, o.formats); err != nil {
@@ -36,6 +42,27 @@ func (o *DeletePetReader) ReadResponse(response runtime.ClientResponse, consumer
 	default:
 		return nil, runtime.NewAPIError("response status code does not match any response statuses defined for this endpoint in the swagger spec", response, response.Code())
 	}
+}
+
+// NewDeletePetOK creates a DeletePetOK with default headers values
+func NewDeletePetOK() *DeletePetOK {
+	return &DeletePetOK{}
+}
+
+/*DeletePetOK handles this case with default header values.
+
+success
+*/
+type DeletePetOK struct {
+}
+
+func (o *DeletePetOK) Error() string {
+	return fmt.Sprintf("[DELETE /pet/{petId}][%d] deletePetOK ", 200)
+}
+
+func (o *DeletePetOK) readResponse(response runtime.ClientResponse, consumer runtime.Consumer, formats strfmt.Registry) error {
+
+	return nil
 }
 
 // NewDeletePetBadRequest creates a DeletePetBadRequest with default headers values

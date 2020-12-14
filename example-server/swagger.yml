@@ -110,6 +110,8 @@ paths:
           type: "integer"
           format: "int64"
       responses:
+        "200":
+          description: "success"
         "400":
           description: "Invalid ID supplied"
         "404":

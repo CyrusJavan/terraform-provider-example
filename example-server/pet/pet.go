@@ -31,7 +31,8 @@ func (s *PetServer) AddPet(p *models.Pet) middleware.Responder {
 			w.WriteHeader(http.StatusBadGateway)
 			return
 		}
-		_, _ = w.Write([]byte(strconv.FormatInt(p.ID, 10)))
+		pb, _ := json.Marshal(p)
+		_, _ = w.Write(pb)
 	})
 }
 

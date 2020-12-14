@@ -11,6 +11,30 @@ import (
 	"github.com/go-openapi/runtime"
 )
 
+// DeletePetOKCode is the HTTP code returned for type DeletePetOK
+const DeletePetOKCode int = 200
+
+/*DeletePetOK success
+
+swagger:response deletePetOK
+*/
+type DeletePetOK struct {
+}
+
+// NewDeletePetOK creates DeletePetOK with default headers values
+func NewDeletePetOK() *DeletePetOK {
+
+	return &DeletePetOK{}
+}
+
+// WriteResponse to the client
+func (o *DeletePetOK) WriteResponse(rw http.ResponseWriter, producer runtime.Producer) {
+
+	rw.Header().Del(runtime.HeaderContentType) //Remove Content-Type on empty responses
+
+	rw.WriteHeader(200)
+}
+
 // DeletePetBadRequestCode is the HTTP code returned for type DeletePetBadRequest
 const DeletePetBadRequestCode int = 400
 

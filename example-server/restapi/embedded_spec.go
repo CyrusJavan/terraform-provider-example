@@ -166,6 +166,9 @@ func init() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "success"
+          },
           "400": {
             "description": "Invalid ID supplied"
           },
@@ -369,6 +372,9 @@ func init() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "success"
+          },
           "400": {
             "description": "Invalid ID supplied"
           },

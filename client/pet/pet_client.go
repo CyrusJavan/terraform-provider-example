@@ -29,7 +29,7 @@ type Client struct {
 type ClientService interface {
 	AddPet(params *AddPetParams) (*AddPetOK, error)
 
-	DeletePet(params *DeletePetParams) error
+	DeletePet(params *DeletePetParams) (*DeletePetOK, error)
 
 	GetPetByID(params *GetPetByIDParams) (*GetPetByIDOK, error)
 
@@ -75,13 +75,13 @@ func (a *Client) AddPet(params *AddPetParams) (*AddPetOK, error) {
 /*
   DeletePet deletes a pet
 */
-func (a *Client) DeletePet(params *DeletePetParams) error {
+func (a *Client) DeletePet(params *DeletePetParams) (*DeletePetOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeletePetParams()
 	}
 
-	_, err := a.transport.Submit(&runtime.ClientOperation{
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "deletePet",
 		Method:             "DELETE",
 		PathPattern:        "/pet/{petId}",
@@ -94,9 +94,16 @@ func (a *Client) DeletePet(params *DeletePetParams) error {
 		Client:             params.HTTPClient,
 	})
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	success, ok := result.(*DeletePetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for deletePet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*

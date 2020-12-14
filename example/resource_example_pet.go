@@ -98,7 +98,7 @@ func resourceExamplePetDelete(ctx context.Context, d *schema.ResourceData, meta 
 	c := meta.(*client.Pet).Pet
 	petData := marshalExamplePet(d)
 
-	err := c.DeletePet(&pet.DeletePetParams{
+	_, err := c.DeletePet(&pet.DeletePetParams{
 		PetID:      petData.ID,
 		Context:    ctx,
 	})
