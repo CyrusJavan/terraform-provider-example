@@ -11,22 +11,16 @@ import (
 
 func Provider() *schema.Provider {
 	return &schema.Provider{
-		Schema: map[string]*schema.Schema{
-			Description: "Example provider.",
-		},
-
+		Schema: map[string]*schema.Schema{},
 		ResourcesMap: map[string]*schema.Resource{
-
+			"pet": resourceExamplePet(),
 		},
-		DataSourcesMap: map[string]*schema.Resource{
-
-		},
+		DataSourcesMap:       map[string]*schema.Resource{},
 		ConfigureContextFunc: configure,
-
 	}
 }
 
 func configure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
-	client := client.NewHTTPClient(strfmt.Default)
-	return client, nil
+	httpClient := client.NewHTTPClient(strfmt.Default)
+	return httpClient, nil
 }

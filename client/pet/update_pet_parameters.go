@@ -15,7 +15,7 @@ import (
 	cr "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
-	"github.com/CyrusJavan/terraform-provider-example/client/models"
+	"github.com/CyrusJavan/terraform-provider-example/models"
 )
 
 // NewUpdatePetParams creates a new UpdatePetParams object

@@ -98,6 +98,12 @@ func init() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "successfully added",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          },
           "405": {
             "description": "Invalid input"
           }
@@ -295,6 +301,12 @@ func init() {
           }
         ],
         "responses": {
+          "200": {
+            "description": "successfully added",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          },
           "405": {
             "description": "Invalid input"
           }

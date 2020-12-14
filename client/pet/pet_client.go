@@ -27,7 +27,7 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
-	AddPet(params *AddPetParams) error
+	AddPet(params *AddPetParams) (*AddPetOK, error)
 
 	DeletePet(params *DeletePetParams) error
 
@@ -41,13 +41,13 @@ type ClientService interface {
 /*
   AddPet adds a new pet to the store
 */
-func (a *Client) AddPet(params *AddPetParams) error {
+func (a *Client) AddPet(params *AddPetParams) (*AddPetOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewAddPetParams()
 	}
 
-	_, err := a.transport.Submit(&runtime.ClientOperation{
+	result, err := a.transport.Submit(&runtime.ClientOperation{
 		ID:                 "addPet",
 		Method:             "POST",
 		PathPattern:        "/pet",
@@ -60,9 +60,16 @@ func (a *Client) AddPet(params *AddPetParams) error {
 		Client:             params.HTTPClient,
 	})
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	success, ok := result.(*AddPetOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	// safeguard: normally, absent a default response, unknown success responses return an error above: so this is a codegen issue
+	msg := fmt.Sprintf("unexpected success response for addPet: API contract not enforced by server. Client expected to get an error, but got: %T", result)
+	panic(msg)
 }
 
 /*
