@@ -9,6 +9,9 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/prologic/bitcask"
+
+	petServer "github.com/CyrusJavan/terraform-provider-example/example-server/pet"
 
 	"github.com/CyrusJavan/terraform-provider-example/example-server/restapi/operations"
 	"github.com/CyrusJavan/terraform-provider-example/example-server/restapi/operations/pet"
@@ -38,9 +41,14 @@ func configureAPI(api *operations.PetAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
+	db, _ := bitcask.Open("/tmp/petdb")
+	ps := petServer.PetServer{
+		DB: db,
+	}
+
 	if api.PetAddPetHandler == nil {
 		api.PetAddPetHandler = pet.AddPetHandlerFunc(func(params pet.AddPetParams) middleware.Responder {
-			return middleware.NotImplemented("operation pet.AddPet has not yet been implemented")
+			return ps.AddPet(params.Body)
 		})
 	}
 	if api.PetDeletePetHandler == nil {
@@ -50,7 +58,7 @@ func configureAPI(api *operations.PetAPI) http.Handler {
 	}
 	if api.PetGetPetByIDHandler == nil {
 		api.PetGetPetByIDHandler = pet.GetPetByIDHandlerFunc(func(params pet.GetPetByIDParams) middleware.Responder {
-			return middleware.NotImplemented("operation pet.GetPetByID has not yet been implemented")
+			return ps.GetPetByID(params.PetID)
 		})
 	}
 	if api.PetUpdatePetHandler == nil {
