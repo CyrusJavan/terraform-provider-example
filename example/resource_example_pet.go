@@ -61,7 +61,7 @@ func resourceExamplePetRead(ctx context.Context, d *schema.ResourceData, meta in
 		Context:    ctx,
 	})
 
-	if err.(*runtime.APIError).Code == 404 {
+	if apiErr, ok := err.(*runtime.APIError); ok && apiErr.Code == 404 {
 		d.SetId("")
 		return nil
 	}
@@ -96,7 +96,6 @@ func resourceExamplePetUpdate(ctx context.Context, d *schema.ResourceData, meta 
 
 func resourceExamplePetDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Pet).Pet
-	// Could we generate the marshal funcs?
 	petData := marshalExamplePet(d)
 
 	err := c.DeletePet(&pet.DeletePetParams{
