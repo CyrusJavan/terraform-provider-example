@@ -10,7 +10,7 @@ build: DESTINATION=$(APPDATA)/terraform.d/plugins/$(PROVIDER_NAMESPACE)/0.0.1/$(
 else
 build: DESTINATION=$(HOME)/.terraform.d/plugins/$(PROVIDER_NAMESPACE)/0.0.1/$(GOOS)_$(GOARCH)
 endif
-build: fmtcheck
+build:
 	@echo "==> Installing plugin to $(DESTINATION)"
 	@mkdir -p $(DESTINATION)
 	go build -o $(DESTINATION)/terraform-provider-example_v0.0.1
