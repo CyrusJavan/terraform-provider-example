@@ -18,7 +18,6 @@ require (
 	github.com/hashicorp/go-uuid v1.0.2 // indirect
 	github.com/hashicorp/hcl/v2 v2.8.0 // indirect
 	github.com/hashicorp/terraform-plugin-go v0.2.0 // indirect
-	github.com/hashicorp/terraform-plugin-sdk v1.16.0
 	github.com/hashicorp/terraform-plugin-sdk/v2 v2.3.0
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/mitchellh/go-testing-interface v1.14.1 // indirect

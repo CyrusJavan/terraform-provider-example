@@ -2,23 +2,17 @@ package example
 
 import (
 	"context"
-	"errors"
 
+	"github.com/CyrusJavan/terraform-provider-example/client"
+	"github.com/go-openapi/strfmt"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
-
 
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{
-			"controller_ip": {
-				Type:        schema.TypeString,
-				Required:    true,
-				DefaultFunc: envDefaultFunc("AVIATRIX_CONTROLLER_IP"),
-			},
-
+			Description: "Example provider.",
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -28,10 +22,11 @@ func Provider() *schema.Provider {
 
 		},
 		ConfigureContextFunc: configure,
+
 	}
 }
 
 func configure(ctx context.Context, d *schema.ResourceData) (interface{}, diag.Diagnostics) {
-
+	client := client.NewHTTPClient(strfmt.Default)
+	return client, nil
 }
-
