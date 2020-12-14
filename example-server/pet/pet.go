@@ -32,7 +32,6 @@ func (s *PetServer) AddPet(p *models.Pet) middleware.Responder {
 			return
 		}
 		_, _ = w.Write([]byte(strconv.FormatInt(p.ID, 10)))
-		w.WriteHeader(http.StatusOK)
 	})
 }
 
@@ -47,7 +46,16 @@ func (s *PetServer) GetPetByID(id int64) middleware.Responder {
 			w.WriteHeader(http.StatusBadGateway)
 			return
 		}
-		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write(obj)
+	})
+}
+
+func (s *PetServer) DeletePet(id int64) middleware.Responder {
+	return middleware.ResponderFunc(func(w http.ResponseWriter, pr runtime.Producer) {
+		err := s.DB.Delete([]byte(strconv.FormatInt(id, 10)))
+		if err != nil {
+			w.WriteHeader(http.StatusBadGateway)
+			return
+		}
 	})
 }

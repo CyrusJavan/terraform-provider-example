@@ -49,19 +49,15 @@ func configureAPI(api *operations.PetAPI) http.Handler {
 	api.PetAddPetHandler = pet.AddPetHandlerFunc(func(params pet.AddPetParams) middleware.Responder {
 		return ps.AddPet(params.Body)
 	})
-	if api.PetDeletePetHandler == nil {
-		api.PetDeletePetHandler = pet.DeletePetHandlerFunc(func(params pet.DeletePetParams) middleware.Responder {
-			return middleware.NotImplemented("operation pet.DeletePet has not yet been implemented")
-		})
-	}
+	api.PetDeletePetHandler = pet.DeletePetHandlerFunc(func(params pet.DeletePetParams) middleware.Responder {
+		return ps.DeletePet(params.PetID)
+	})
 	api.PetGetPetByIDHandler = pet.GetPetByIDHandlerFunc(func(params pet.GetPetByIDParams) middleware.Responder {
 		return ps.GetPetByID(params.PetID)
 	})
-	if api.PetUpdatePetHandler == nil {
-		api.PetUpdatePetHandler = pet.UpdatePetHandlerFunc(func(params pet.UpdatePetParams) middleware.Responder {
-			return middleware.NotImplemented("operation pet.UpdatePet has not yet been implemented")
-		})
-	}
+	api.PetUpdatePetHandler = pet.UpdatePetHandlerFunc(func(params pet.UpdatePetParams) middleware.Responder {
+		return ps.AddPet(params.Body)
+	})
 
 	api.PreServerShutdown = func() {}
 
