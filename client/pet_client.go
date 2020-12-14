@@ -10,7 +10,7 @@ import (
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
-	"github.com/CyrusJavan/terraform-provider-example/client/client/pet"
+	"github.com/CyrusJavan/terraform-provider-example/client/pet"
 )
 
 // Default pet HTTP client.
