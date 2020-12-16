@@ -1,8 +1,6 @@
 TF_PLUGIN_DIR=~/.terraform.d/plugins
 PROVIDER_NAMESPACE=example.com/example/example
 
-default: build
-
 build: GOOS=$(shell go env GOOS)
 build: GOARCH=$(shell go env GOARCH)
 ifeq ($(OS),Windows_NT)  # is Windows_NT on XP, 2000, 7, Vista, 10...
