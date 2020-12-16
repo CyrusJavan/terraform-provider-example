@@ -17,4 +17,8 @@ build:
 	@mkdir -p $(DESTINATION)
 	go build -o $(DESTINATION)/terraform-provider-example_v0.0.1
 
+run:
+	@echo "==>starting server"
+	@export PORT=9999 && go run example-server/cmd/pet-server/main.go
+
 .PHONY: build
