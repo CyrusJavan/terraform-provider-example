@@ -21,6 +21,9 @@ build:
 
 run:
 	@echo "==>starting server"
-	@export PORT=9999 && go run example-server/cmd/pet-server/main.go
+	PORT=9999 go run example-server/cmd/pet-server/main.go
+
+testacc:
+	TF_ACC=1 go test ./example -v $(TESTARGS) -timeout 1m
 
 .PHONY: build
