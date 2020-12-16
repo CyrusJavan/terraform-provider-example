@@ -9,6 +9,8 @@ else
 build: DESTINATION=$(HOME)/.terraform.d/plugins/$(PROVIDER_NAMESPACE)/0.0.1/$(GOOS)_$(GOARCH)
 endif
 build:
+	@echo "==> Generating documentation"
+	@go generate
 	@echo "==> Generating example-server"
 	cd example-server && swagger generate server -A pet -f ./swagger.yml
 	@echo "==> Generating client"

@@ -1,4 +1,4 @@
-provider example {}
+provider "example" {}
 
 terraform {
   required_providers {
@@ -8,6 +8,6 @@ terraform {
   }
 }
 
-resource example_pet pet_1 {
+resource "example_pet" "pet_1" {
   name = "sharik"
 }
