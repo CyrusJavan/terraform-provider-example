@@ -1,15 +1,20 @@
 # Example Terraform Provider
 
-The point of this provider is to use the v2 provider sdk.
+## Requirements
+- Terraform 0.13+
+- Go 1.15+
+- Swagger v0.25.0+
 
-Generate client: 
-```
-cd client/
-swagger generate client -f ../example-server/swagger.yml -A pet
+## Build
+```shell
+make
 ```
 
-Generate example-server:
-```
-cd example-server
-swagger generate server -A pet -f ./swagger.yml
+## Try out an example
+```shell
+cd tf-examples/example-pet
+terraform init
+terraform plan
+terraform apply
+terraform destroy
 ```
