@@ -28,7 +28,7 @@ require (
 	github.com/mitchellh/go-testing-interface v1.14.1 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/oklog/run v1.1.0 // indirect
-	github.com/prologic/bitcask v0.3.9
+	git.mills.io/prologic/bitcask v0.3.9
 	github.com/zclconf/go-cty v1.7.1 // indirect
 	golang.org/x/exp v0.0.0-20201215153530-b5a6e247da10 // indirect
 	golang.org/x/net v0.0.0-20201216054612-986b41b23924
