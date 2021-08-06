@@ -17,6 +17,9 @@ import (
 // swagger:model Pet
 type Pet struct {
 
+	// favorite foods
+	FavoriteFoods []string `json:"favoriteFoods"`
+
 	// id
 	ID int64 `json:"id,omitempty"`
 

@@ -29,6 +29,14 @@ func resourceExamplePet() *schema.Resource {
 				Optional:    true,
 				Description: "Pet nicknames.",
 			},
+			"favorite_foods": {
+				Type: schema.TypeList,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				Optional:    true,
+				Description: "Pet's favorite foods, in ranked order.",
+			},
 		},
 		CreateContext: resourceExamplePetCreate,
 		ReadContext:   resourceExamplePetRead,
@@ -85,6 +93,13 @@ func resourceExamplePetRead(ctx context.Context, d *schema.ResourceData, meta in
 	if err != nil {
 		return diag.Errorf("could not set 'nicknames': %v", err)
 	}
+	if resp.Payload.FavoriteFoods == nil {
+		resp.Payload.FavoriteFoods = []string{}
+	}
+	err = d.Set("favorite_foods", resp.Payload.FavoriteFoods)
+	if err != nil {
+		return diag.Errorf("could not set 'favorite_foods': %v", err)
+	}
 	d.SetId(strconv.FormatInt(resp.Payload.ID, 10))
 
 	return nil
@@ -132,9 +147,14 @@ func marshalExamplePet(d *schema.ResourceData) *models.Pet {
 	for _, v := range d.Get("nicknames").(*schema.Set).List() {
 		nicknames = append(nicknames, v.(string))
 	}
+	var favoriteFoods []string
+	for _, v := range d.Get("favorite_foods").([]interface{}) {
+		favoriteFoods = append(favoriteFoods, v.(string))
+	}
 	return &models.Pet{
-		ID:        int64(id),
-		Name:      &name,
-		Nicknames: nicknames,
+		ID:            int64(id),
+		Name:          &name,
+		Nicknames:     nicknames,
+		FavoriteFoods: favoriteFoods,
 	}
 }

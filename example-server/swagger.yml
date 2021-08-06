@@ -132,6 +132,10 @@ definitions:
         type: array
         items:
           type: string
+      favoriteFoods:
+        type: array
+        items:
+          type: string
   ApiResponse:
     type: "object"
     properties:

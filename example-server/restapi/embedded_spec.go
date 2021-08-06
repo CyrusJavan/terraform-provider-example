@@ -201,6 +201,12 @@ func init() {
         "name"
       ],
       "properties": {
+        "favoriteFoods": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "id": {
           "type": "integer",
           "format": "int64"
@@ -413,6 +419,12 @@ func init() {
         "name"
       ],
       "properties": {
+        "favoriteFoods": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "id": {
           "type": "integer",
           "format": "int64"
