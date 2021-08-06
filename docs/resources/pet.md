@@ -15,10 +15,11 @@ Pet represents a single pet resource.
 
 ### Required
 
-- **name** (String, Required) Account name
+- **name** (String, Required) Pet name.
 
 ### Optional
 
 - **id** (String, Optional) The ID of this resource.
+- **nicknames** (Set of String, Optional) Pet nicknames.
 
 

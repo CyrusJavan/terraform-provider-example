@@ -19,7 +19,15 @@ func resourceExamplePet() *schema.Resource {
 			"name": {
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "Account name",
+				Description: "Pet name.",
+			},
+			"nicknames": {
+				Type: schema.TypeSet,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+				Optional:    true,
+				Description: "Pet nicknames.",
 			},
 		},
 		CreateContext: resourceExamplePetCreate,
@@ -51,14 +59,13 @@ func resourceExamplePetCreate(ctx context.Context, d *schema.ResourceData, meta 
 	return nil
 }
 
-
 func resourceExamplePetRead(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Pet).Pet
 	petData := marshalExamplePet(d)
 
 	resp, err := c.GetPetByID(&pet.GetPetByIDParams{
-		PetID:      petData.ID,
-		Context:    ctx,
+		PetID:   petData.ID,
+		Context: ctx,
 	})
 
 	if apiErr, ok := err.(*runtime.APIError); ok && apiErr.Code == 404 {
@@ -71,11 +78,17 @@ func resourceExamplePetRead(ctx context.Context, d *schema.ResourceData, meta in
 	}
 
 	d.Set("name", *resp.Payload.Name)
+	if resp.Payload.Nicknames == nil {
+		resp.Payload.Nicknames = []string{}
+	}
+	err = d.Set("nicknames", resp.Payload.Nicknames)
+	if err != nil {
+		return diag.Errorf("could not set 'nicknames': %v", err)
+	}
 	d.SetId(strconv.FormatInt(resp.Payload.ID, 10))
 
 	return nil
 }
-
 
 func resourceExamplePetUpdate(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Pet).Pet
@@ -93,14 +106,13 @@ func resourceExamplePetUpdate(ctx context.Context, d *schema.ResourceData, meta 
 	return nil
 }
 
-
 func resourceExamplePetDelete(ctx context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	c := meta.(*client.Pet).Pet
 	petData := marshalExamplePet(d)
 
 	_, err := c.DeletePet(&pet.DeletePetParams{
-		PetID:      petData.ID,
-		Context:    ctx,
+		PetID:   petData.ID,
+		Context: ctx,
 	})
 
 	if err != nil {
@@ -116,8 +128,13 @@ func marshalExamplePet(d *schema.ResourceData) *models.Pet {
 		log.Printf("received invalid ID: %v\n", id)
 	}
 	name := d.Get("name").(string)
+	var nicknames []string
+	for _, v := range d.Get("nicknames").(*schema.Set).List() {
+		nicknames = append(nicknames, v.(string))
+	}
 	return &models.Pet{
-		ID:   int64(id),
-		Name: &name,
+		ID:        int64(id),
+		Name:      &name,
+		Nicknames: nicknames,
 	}
 }

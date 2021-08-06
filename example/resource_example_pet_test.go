@@ -11,6 +11,7 @@ import (
 func TestAccExamplePet(t *testing.T) {
 	rName := fmt.Sprintf("%s", acctest.RandString(5))
 	resourceName := "example_pet.test"
+	nicknames := []string{"bubba", "buddy", "kiddo"}
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() {
@@ -18,9 +19,12 @@ func TestAccExamplePet(t *testing.T) {
 		ProviderFactories: providerFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccExamplePetConfig(rName),
+				Config: testAccExamplePetConfig(rName, nicknames[0], nicknames[1], nicknames[2]),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "name", rName),
+					resource.TestCheckResourceAttr(resourceName, "nicknames.0", nicknames[0]),
+					resource.TestCheckResourceAttr(resourceName, "nicknames.1", nicknames[1]),
+					resource.TestCheckResourceAttr(resourceName, "nicknames.2", nicknames[2]),
 				),
 			},
 			{
@@ -32,10 +36,11 @@ func TestAccExamplePet(t *testing.T) {
 	})
 }
 
-func testAccExamplePetConfig(rName string) string {
+func testAccExamplePetConfig(rName, nName0, nName1, nName2 string) string {
 	return fmt.Sprintf(`
 resource example_pet test {
-  name = "%s"
+  name      = "%s"
+  nicknames = ["%s", "%s", "%s"]
 }
-	`, rName)
+	`, rName, nName0, nName1, nName2)
 }

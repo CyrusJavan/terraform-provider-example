@@ -208,6 +208,12 @@ func init() {
         "name": {
           "type": "string",
           "example": "doggie"
+        },
+        "nicknames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }
@@ -414,6 +420,12 @@ func init() {
         "name": {
           "type": "string",
           "example": "doggie"
+        },
+        "nicknames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }

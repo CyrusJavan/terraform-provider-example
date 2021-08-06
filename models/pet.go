@@ -23,6 +23,9 @@ type Pet struct {
 	// name
 	// Required: true
 	Name *string `json:"name"`
+
+	// nicknames
+	Nicknames []string `json:"nicknames"`
 }
 
 // Validate validates this pet
