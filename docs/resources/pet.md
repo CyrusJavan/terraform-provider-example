@@ -19,6 +19,7 @@ Pet represents a single pet resource.
 
 ### Optional
 
+- **favorite_foods** (List of String, Optional) Pet's favorite foods, in ranked order.
 - **id** (String, Optional) The ID of this resource.
 - **nicknames** (Set of String, Optional) Pet nicknames.
 
